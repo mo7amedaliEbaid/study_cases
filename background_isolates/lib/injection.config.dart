@@ -19,7 +19,6 @@ import 'http_client.dart' as _i500;
 import 'presentation/blocs/tv_shows/bloc.dart' as _i35;
 
 extension GetItInjectableX on _i174.GetIt {
-// initializes the registration of main-scope dependencies inside of GetIt
   _i174.GetIt init({
     String? environment,
     _i526.EnvironmentFilter? environmentFilter,
