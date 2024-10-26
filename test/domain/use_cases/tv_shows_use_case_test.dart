@@ -5,10 +5,9 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:tv_series/data/repositories/tv_shows.dart';
 import 'package:tv_series/domain/entities/tv_show.dart';
-import 'package:tv_series/domain/repositories/tv_shows.dart';
 import 'package:tv_series/domain/use_cases/tv_shows.dart';
 
-import 'tv_shows.mocks.dart';
+import 'tv_shows_use_case_test.mocks.dart';
 
 @GenerateMocks([TvShowRepositoryImpl])
 void main() {
