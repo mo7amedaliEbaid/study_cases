@@ -1,4 +1,5 @@
 # tv_series
+[![Test](https://github.com/mo7amedaliEbaid/study_cases/actions/workflows/test.yml/badge.svg)](https://github.com/mo7amedaliEbaid/study_cases/actions/workflows/test.yml)
 
 A new Flutter project.
 
