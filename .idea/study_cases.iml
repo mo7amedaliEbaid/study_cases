@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <excludeFolder url="file://$MODULE_DIR$/anime_list_graph_ql/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/anime_list_graph_ql/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/anime_list_graph_ql/build" />
+      <excludeFolder url="file://$MODULE_DIR$/background_isolates/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/background_isolates/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/background_isolates/build" />
+      <excludeFolder url="file://$MODULE_DIR$/live_stream/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/live_stream/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/live_stream/build" />
+      <excludeFolder url="file://$MODULE_DIR$/tv_series/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/tv_series/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/tv_series/build" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+  </component>
+</module>
