@@ -1,32 +1,21 @@
-import 'package:equatable/equatable.dart';
 
-class QuoteEntity extends Equatable {
-  const QuoteEntity({
-    required this.cityName,
-    required this.main,
-    required this.description,
-    required this.iconCode,
-    required this.temperature,
-    required this.pressure,
-    required this.humidity,
+
+class Quote {
+  final int id;
+  final String quote;
+  final String author;
+
+  Quote({
+    required this.id,
+    required this.quote,
+    required this.author,
   });
 
-  final String cityName;
-  final String main;
-  final String description;
-  final String iconCode;
-  final double temperature;
-  final int pressure;
-  final int humidity;
-
-  @override
-  List<Object?> get props => [
-        cityName,
-        main,
-        description,
-        iconCode,
-        temperature,
-        pressure,
-        humidity,
-      ];
+  factory Quote.fromJson(Map<String, dynamic> json) {
+    return Quote(
+      id: json['id'] as int,
+      quote: json['quote'] as String,
+      author: json['author'] as String,
+    );
+  }
 }
