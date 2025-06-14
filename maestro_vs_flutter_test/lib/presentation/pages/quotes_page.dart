@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../domain/entities/quote.dart';
-import '../bloc/quotes_bloc.dart';
+import '../blocs/quotes/quotes_bloc.dart';
 import 'quote_details_page.dart';
 
 class QuotesPage extends StatelessWidget {
@@ -17,10 +16,7 @@ class QuotesPage extends StatelessWidget {
       ),
       body: BlocBuilder<QuotesBloc, QuotesState>(
         builder: (context, state) {
-          if (state is QuotesInitial) {
-            context.read<QuotesBloc>().add(GetQuotes());
-            return const Center(child: CircularProgressIndicator());
-          } else if (state is QuotesLoading) {
+          if (state is QuotesLoading || state is QuotesInitial) {
             return const Center(child: CircularProgressIndicator());
           } else if (state is QuotesLoaded) {
             return _buildQuotesList(context, state.quotes);
@@ -33,7 +29,7 @@ class QuotesPage extends StatelessWidget {
                   const SizedBox(height: 16),
                   ElevatedButton(
                     onPressed: () {
-                      context.read<QuotesBloc>().add(GetQuotes());
+                      context.read<QuotesBloc>().add(GetAllQuotesEvent());
                     },
                     child: const Text('Retry'),
                   ),
@@ -47,7 +43,7 @@ class QuotesPage extends StatelessWidget {
     );
   }
 
-  Widget _buildQuotesList(BuildContext context, List<Quote> quotes) {
+  Widget _buildQuotesList(BuildContext context, List quotes) {
     return ListView.builder(
       padding: const EdgeInsets.all(16),
       itemCount: quotes.length,
@@ -60,7 +56,7 @@ class QuotesPage extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => QuoteDetailsPage(quoteId: quote.id),
+                  builder: (_) => QuoteDetailsPage(quoteId: quote.id),
                 ),
               );
             },

@@ -1,9 +1,9 @@
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
-import '../../domain/entities/quote.dart';
-import '../../domain/repositories/quote_repository.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-// Events
+import '../../../domain/entities/quote.dart';
+import '../../../domain/use_cases/get_quotes.dart';
+
 abstract class QuotesEvent extends Equatable {
   const QuotesEvent();
 
@@ -11,14 +11,13 @@ abstract class QuotesEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class GetQuotes extends QuotesEvent {}
+class GetAllQuotesEvent extends QuotesEvent {}
 
-// States
 abstract class QuotesState extends Equatable {
   const QuotesState();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class QuotesInitial extends QuotesState {}
@@ -26,12 +25,12 @@ class QuotesInitial extends QuotesState {}
 class QuotesLoading extends QuotesState {}
 
 class QuotesLoaded extends QuotesState {
-  final List<Quote> quotes;
+  final List<QuoteEntity> quotes;
 
   const QuotesLoaded(this.quotes);
 
   @override
-  List<Object> get props => [quotes];
+  List<Object?> get props => [quotes];
 }
 
 class QuotesError extends QuotesState {
@@ -40,24 +39,24 @@ class QuotesError extends QuotesState {
   const QuotesError(this.message);
 
   @override
-  List<Object> get props => [message];
+  List<Object?> get props => [message];
 }
 
-// Bloc
 class QuotesBloc extends Bloc<QuotesEvent, QuotesState> {
-  final QuoteRepository repository;
+  final GetQuotes getQuotes;
 
-  QuotesBloc({required this.repository}) : super(QuotesInitial()) {
-    on<GetQuotes>(_onGetQuotes);
+  QuotesBloc({required this.getQuotes}) : super(QuotesInitial()) {
+    on<GetAllQuotesEvent>(_onGetAllQuotes);
   }
 
-  Future<void> _onGetQuotes(GetQuotes event, Emitter<QuotesState> emit) async {
+  Future<void> _onGetAllQuotes(
+      GetAllQuotesEvent event, Emitter<QuotesState> emit) async {
     emit(QuotesLoading());
     try {
-      final quotes = await repository.getQuotes();
+      final quotes = await getQuotes();
       emit(QuotesLoaded(quotes));
     } catch (e) {
       emit(QuotesError(e.toString()));
     }
   }
-} 
+}

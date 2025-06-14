@@ -1,0 +1,18 @@
+appId: com.example.maestroVsFlutterTest
+
+---
+
+- launchApp
+
+- assertVisible: "Quotes"
+
+
+- takeScreenshot: quotes
+
+
+- swipe:
+    direction: DOWN
+
+- takeScreenshot: quotes_list
+
+

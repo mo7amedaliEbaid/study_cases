@@ -1,9 +1,9 @@
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
-import '../../domain/entities/quote.dart';
-import '../../domain/repositories/quote_repository.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-// Events
+import '../../../domain/entities/quote.dart';
+import '../../../domain/use_cases/get_quote_by_id.dart';
+
 abstract class QuoteDetailsEvent extends Equatable {
   const QuoteDetailsEvent();
 
@@ -11,21 +11,20 @@ abstract class QuoteDetailsEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class GetQuoteDetails extends QuoteDetailsEvent {
+class GetQuoteByIdEvent extends QuoteDetailsEvent {
   final int id;
 
-  const GetQuoteDetails(this.id);
+  const GetQuoteByIdEvent(this.id);
 
   @override
   List<Object> get props => [id];
 }
 
-// States
 abstract class QuoteDetailsState extends Equatable {
   const QuoteDetailsState();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class QuoteDetailsInitial extends QuoteDetailsState {}
@@ -33,12 +32,12 @@ class QuoteDetailsInitial extends QuoteDetailsState {}
 class QuoteDetailsLoading extends QuoteDetailsState {}
 
 class QuoteDetailsLoaded extends QuoteDetailsState {
-  final Quote quote;
+  final QuoteEntity quote;
 
   const QuoteDetailsLoaded(this.quote);
 
   @override
-  List<Object> get props => [quote];
+  List<Object?> get props => [quote];
 }
 
 class QuoteDetailsError extends QuoteDetailsState {
@@ -47,27 +46,25 @@ class QuoteDetailsError extends QuoteDetailsState {
   const QuoteDetailsError(this.message);
 
   @override
-  List<Object> get props => [message];
+  List<Object?> get props => [message];
 }
 
-// Bloc
 class QuoteDetailsBloc extends Bloc<QuoteDetailsEvent, QuoteDetailsState> {
-  final QuoteRepository repository;
+  final GetQuoteById getQuoteById;
 
-  QuoteDetailsBloc({required this.repository}) : super(QuoteDetailsInitial()) {
-    on<GetQuoteDetails>(_onGetQuoteDetails);
+  QuoteDetailsBloc({required this.getQuoteById})
+      : super(QuoteDetailsInitial()) {
+    on<GetQuoteByIdEvent>(_onGetQuoteById);
   }
 
-  Future<void> _onGetQuoteDetails(
-    GetQuoteDetails event,
-    Emitter<QuoteDetailsState> emit,
-  ) async {
+  Future<void> _onGetQuoteById(
+      GetQuoteByIdEvent event, Emitter<QuoteDetailsState> emit) async {
     emit(QuoteDetailsLoading());
     try {
-      final quote = await repository.getQuoteById(event.id);
+      final quote = await getQuoteById(event.id);
       emit(QuoteDetailsLoaded(quote));
     } catch (e) {
       emit(QuoteDetailsError(e.toString()));
     }
   }
-} 
+}

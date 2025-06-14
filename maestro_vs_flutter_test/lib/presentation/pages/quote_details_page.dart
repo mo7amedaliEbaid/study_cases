@@ -1,65 +1,58 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:http/http.dart' as http;
 
-import '../../data/datasources/quote_remote_data_source.dart';
-import '../../data/repositories/quote_repository_impl.dart';
-import '../bloc/quote_details_bloc.dart';
+import '../blocs/details/details_bloc.dart';
 
-class QuoteDetailsPage extends StatelessWidget {
+class QuoteDetailsPage extends StatefulWidget {
   final int quoteId;
 
-  const QuoteDetailsPage({
-    super.key,
-    required this.quoteId,
-  });
+  const QuoteDetailsPage({super.key, required this.quoteId});
+
+  @override
+  State<QuoteDetailsPage> createState() => _QuoteDetailsPageState();
+}
+
+class _QuoteDetailsPageState extends State<QuoteDetailsPage> {
+  @override
+  void initState() {
+    context.read<QuoteDetailsBloc>().add(GetQuoteByIdEvent(widget.quoteId));
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<QuoteDetailsBloc>(
-      create: (context) {
-        final remoteDataSource =
-            QuoteRemoteDataSourceImpl(client: http.Client());
-        final repository =
-            QuoteRepositoryImpl(remoteDataSource: remoteDataSource);
-        return QuoteDetailsBloc(repository: repository);
-      },
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text('Quote Details'),
-          centerTitle: true,
-        ),
-        body: BlocBuilder<QuoteDetailsBloc, QuoteDetailsState>(
-          builder: (context, state) {
-            if (state is QuoteDetailsInitial) {
-              context.read<QuoteDetailsBloc>().add(GetQuoteDetails(quoteId));
-              return const Center(child: CircularProgressIndicator());
-            } else if (state is QuoteDetailsLoading) {
-              return const Center(child: CircularProgressIndicator());
-            } else if (state is QuoteDetailsLoaded) {
-              return _buildQuoteDetails(state.quote);
-            } else if (state is QuoteDetailsError) {
-              return Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(state.message),
-                    const SizedBox(height: 16),
-                    ElevatedButton(
-                      onPressed: () {
-                        context
-                            .read<QuoteDetailsBloc>()
-                            .add(GetQuoteDetails(quoteId));
-                      },
-                      child: const Text('Retry'),
-                    ),
-                  ],
-                ),
-              );
-            }
-            return const SizedBox.shrink();
-          },
-        ),
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Quote Details'),
+        centerTitle: true,
+      ),
+      body: BlocBuilder<QuoteDetailsBloc, QuoteDetailsState>(
+        builder: (context, state) {
+          if (state is QuoteDetailsLoading || state is QuoteDetailsInitial) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (state is QuoteDetailsLoaded) {
+            return _buildQuoteDetails(state.quote);
+          } else if (state is QuoteDetailsError) {
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(state.message),
+                  const SizedBox(height: 16),
+                  ElevatedButton(
+                    onPressed: () {
+                      context
+                          .read<QuoteDetailsBloc>()
+                          .add(GetQuoteByIdEvent(widget.quoteId));
+                    },
+                    child: const Text('Retry'),
+                  ),
+                ],
+              ),
+            );
+          }
+          return const SizedBox.shrink();
+        },
       ),
     );
   }

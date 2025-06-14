@@ -8,12 +8,12 @@ class QuoteRepositoryImpl implements QuoteRepository {
   QuoteRepositoryImpl({required this.remoteDataSource});
 
   @override
-  Future<List<Quote>> getQuotes() async {
+  Future<List<QuoteEntity>> getQuotes() async {
     return await remoteDataSource.getQuotes();
   }
 
   @override
-  Future<Quote> getQuoteById(int id) async {
+  Future<QuoteEntity> getQuoteById(int id) async {
     return await remoteDataSource.getQuoteById(id);
   }
-} 
+}
