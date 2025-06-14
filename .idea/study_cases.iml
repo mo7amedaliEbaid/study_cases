@@ -15,6 +15,9 @@
       <excludeFolder url="file://$MODULE_DIR$/tv_series/.dart_tool" />
       <excludeFolder url="file://$MODULE_DIR$/tv_series/.pub" />
       <excludeFolder url="file://$MODULE_DIR$/tv_series/build" />
+      <excludeFolder url="file://$MODULE_DIR$/maestro_vs_flutter_test/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/maestro_vs_flutter_test/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/maestro_vs_flutter_test/build" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
